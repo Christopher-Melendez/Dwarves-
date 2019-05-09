@@ -13,7 +13,7 @@ const int MAX_NUM = 10;
 int ROWS;  // global variables
 int COLS;
 int NUM;
-int lumber_goal = 300;
+int lumber_goal = 295;
 
 enum Phase {COLLECT_P,BUILD_P};
 Phase current_phase = COLLECT_P;
@@ -158,7 +158,7 @@ void onAction(Dwarf &dwarf, int day, int hours, int minutes, ostream &log) {
 					break;
 				}
 				case BUILD_BP : {
-					if((r == (dwarf.name() +5)) && (c < 12)) {
+					if((r == (dwarf.name() +5)) && (c < 15)) {
 						//Build wall to left every step
 						if(is_tree(dwarf, r-1,c)) {
 							dwarf.start_chop(WEST);
@@ -176,12 +176,14 @@ void onAction(Dwarf &dwarf, int day, int hours, int minutes, ostream &log) {
 				}
 				case SETUP_BP : {
 					//Try to walk to starting spot.
-					if(is_tree(dwarf,dwarf.name()+5,5)) {
-						dwarf.start_walk(dwarf.name()+5,4);
-						log<<dwarf.name()<<" -Tree at SETUP, move left"<<endl;
+					if(is_tree(dwarf, r, c+1)) {
+						dwarf.start_chop(EAST);						
 					} else if(is_tree(dwarf,dwarf.name()+5,4)) {
 						dwarf.start_walk(dwarf.name()+5,6);
 						log<<dwarf.name()<<" -Tree at left, move right"<<endl;
+					}else if(is_tree(dwarf,dwarf.name()+5,5)) {
+						dwarf.start_walk(dwarf.name()+5,4);
+						log<<dwarf.name()<<" -Tree at SETUP, move left"<<endl;
 					} else {
 						dwarf.start_walk(dwarf.name()+5,5);
 						log<<dwarf.name()<<" -Tree at right, move left"<<endl;
